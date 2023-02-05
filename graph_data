@@ -1,0 +1,34 @@
+pragma solidity ^0.8.0;
+
+contract Graph {
+    // mapping of node IDs to arrays of outgoing edges
+    mapping (uint256 => uint256[]) private nodes;
+
+    // mapping of edge IDs to edge information (start node, end node)
+    mapping (uint256 => (uint256, uint256)) private edges;
+
+    // counter for generating unique edge IDs
+    uint256 private edgeCounter = 0;
+
+    // adds a new edge from startNode to endNode
+    function addEdge(uint256 startNode, uint256 endNode) public {
+        // increment edgeCounter to get a unique edge ID
+        edgeCounter++;
+
+        // add the edge information to the edges mapping
+        edges[edgeCounter] = (startNode, endNode);
+
+        // add the edge ID to the outgoing edges of the startNode
+        nodes[startNode].push(edgeCounter);
+    }
+
+    // returns the outgoing edges of a node
+    function getOutgoingEdges(uint256 node) public view returns (uint256[] memory) {
+        return nodes[node];
+    }
+
+    // returns the start and end node of an edge
+    function getEdgeNodes(uint256 edge) public view returns (uint256, uint256) {
+        return edges[edge];
+    }
+}
