@@ -1,0 +1,45 @@
+pragma solidity ^0.8.0;
+
+contract GNN {
+    // mapping of node IDs to arrays of node feature vectors
+    mapping (uint256 => uint256[]) private nodes;
+
+    // mapping of edge IDs to arrays of edge feature vectors
+    mapping (uint256 => uint256[]) private edges;
+
+    // mapping of node IDs to arrays of incoming edge IDs
+    mapping (uint256 => uint256[]) private incomingEdges;
+
+    // function that updates the node feature vectors
+    function updateNodeFeatures(uint256 node, uint256[] memory newFeatures) public {
+        nodes[node] = newFeatures;
+    }
+
+    // function that updates the edge feature vectors
+    function updateEdgeFeatures(uint256 edge, uint256[] memory newFeatures) public {
+        edges[edge] = newFeatures;
+    }
+
+    // function that aggregates messages from incoming edges and updates node features
+    function aggregateAndUpdate(uint256 node) public {
+        uint256[] memory aggregatedMessage = new uint256[](3);
+
+        // iterate over incoming edges
+        for (uint256 i = 0; i < incomingEdges[node].length; i++) {
+            uint256 edge = incomingEdges[node][i];
+
+            // apply a simple message-passing function to the edge features
+            uint256[] memory message = edges[edge].map(function (uint256 feature) returns (uint256) {
+                return feature * 2;
+            });
+
+            // aggregate the messages
+            aggregatedMessage[0] += message[0];
+            aggregatedMessage[1] += message[1];
+            aggregatedMessage[2] += message[2];
+        }
+
+        // update the node features using the aggregated message
+        updateNodeFeatures(node, aggregatedMessage);
+    }
+}
