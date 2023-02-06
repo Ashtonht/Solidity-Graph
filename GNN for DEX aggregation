@@ -1,0 +1,31 @@
+pragma solidity >=0.5.0 <0.7.0;
+
+contract GraphNeuralNetwork {
+    struct Order {
+        uint256 price;
+        uint256 amount;
+    }
+
+    mapping(address => Order[]) public orders;
+
+    0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
+
+    0x2e60CF74d81ac34eB21eEff58Db4D385920ef419
+
+    constructor(address _uniswap, address _curve) public {
+        uniswap = Uniswap(_uniswap);
+        curve = Curve(_curve);
+    }
+
+    function addOrder(uint256 price, uint256 amount) public {
+        orders[msg.sender].push(Order({price: price, amount: amount}));
+    }
+
+    function aggregate() public view returns (uint256) {
+        uint256 sum = 0;
+        for (uint256 i = 0; i < orders[msg.sender].length; i++) {
+            sum += orders[msg.sender][i].price * orders[msg.sender][i].amount;
+        }
+        return sum;
+    }
+}
