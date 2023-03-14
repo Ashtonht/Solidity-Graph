@@ -1,0 +1,15 @@
+// Load web3.js library
+var Web3 = require('web3');
+
+// Connect to Ethereum network
+var web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/YOUR_PROJECT_ID'));
+
+// Load smart contract
+var contractAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
+var contractABI = [ABI_OF_THE_SMART_CONTRACT];
+var contract = new web3.eth.Contract(contractABI, contractAddress);
+
+// Call a function in the smart contract
+contract.methods.functionName().call().then(function(result) {
+  console.log(result);
+});
