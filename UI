@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Smart Contract Interaction</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script>
+      // Connect to Ethereum node
+      const web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/YOUR_PROJECT_ID"));
+
+      // Define the ABI (Application Binary Interface) of the smart contract
+      const abi = [
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "myFunction",
+          "outputs": [
+            {
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        }
+      ];
+
+      // Define the address of the smart contract
+      const contractAddress = "0x123456789abcdef...";
+
+      // Create an instance of the smart contract
+      const myContract = new web3.eth.Contract(abi, contractAddress);
+
+      // Call a function on the smart contract
+      myContract.methods.myFunction().call().then(function(result) {
+        console.log(result);
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Smart Contract Interaction</h1>
+  </body>
+</html>
