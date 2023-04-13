@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract GraphNeuralNetwork {
+    mapping(uint256 => string) private gnnResults;
+
+    event ResultStored(uint256 indexed queryId, address indexed user);
+
+    function storeResult(uint256 queryId, string memory result) public {
+        require(bytes(gnnResults[queryId]).length == 0, "Result already exists");
+        gnnResults[queryId] = result;
+        emit ResultStored(queryId, msg.sender);
+    }
+
+    function getResult(uint256 queryId) public view returns (string memory) {
+        require(bytes(gnnResults[queryId]).length != 0, "Result does not exist");
+        return gnnResults[queryId];
+    }
+}
